@@ -88,6 +88,9 @@ function extractAuthor($node){
     return results$;
   }())) != null ? (ref1$ = ref$[0]) != null ? ref1$.replace(/^primary-/, '') : void 8 : void 8;
 }
+
+var authorNameMap = {};
+
 function authorViewUpdate($node, lineNumber, prevAuthor, authorClass){
   var $authorContainer, prev, prevId, ref$, authorChanged, next, logicalPrevAuthor;
   $authorContainer = $sidedivinner.find("div:nth-child(" + lineNumber + ")");
@@ -105,6 +108,10 @@ function authorViewUpdate($node, lineNumber, prevAuthor, authorClass){
     $authorContainer.addClass('concise');
   } else {
     $authorContainer.removeClass('concise');
+  }
+  var name = authorNameMap[authorClass];
+  if (name) {
+    $authorContainer.prop("title", "author: " + name);
   }
   prevId = (ref$ = $authorContainer.attr('id')) != null ? ref$.replace(/^ref-/, '') : void 8;
   if (prevId === $node.attr('id')) {
@@ -138,11 +145,14 @@ getAuthorClassName = function(author){
 };
 function outerInit(outerDynamicCSS){
   var x$, y$, z$, z1$;
+  outerDynamicCSS.selectorStyle('#sidedivinner').paddingBottom = "16px";
   x$ = outerDynamicCSS.selectorStyle('#sidedivinner > div.primary-author-none');
   x$.borderRight = 'solid 0px ';
   x$.paddingRight = '5px';
   y$ = outerDynamicCSS.selectorStyle('#sidedivinner > div.concise::before');
   y$.content = "' '";
+  y$.display = "inline";
+  y$.border = "none";
   z$ = outerDynamicCSS.selectorStyle('#sidedivinner > div');
   z$.fontSize = '0px';
   z$.paddingRight = '10px';
@@ -166,6 +176,7 @@ function aceSetAuthorStyle(name, context){
     }
     authorClass = getAuthorClassName(author);
     authorName = authorNameAndColorFromAuthorId(author, info.userInfo).name;
+    authorNameMap[authorClass] = authorName;
     x$ = dynamicCSS.selectorStyle(".authorColors span." + authorClass);
     x$.borderBottom = "2px solid " + color;
     y$ = parentDynamicCSS.selectorStyle(authorSelector);
@@ -176,7 +187,21 @@ function aceSetAuthorStyle(name, context){
     z1$.borderRight = "solid 5px " + color;
     z1$.paddingRight = '5px';
     z2$ = outerDynamicCSS.selectorStyle("#sidedivinner > div.primary-" + authorClass + "::before");
-    z2$.content = "'" + authorName + "'";
+    z2$.content = "' '";
+    if (info.userInfo && info.userInfo.avatarUrl) {
+      if (!info.userInfo.avatarUrl) console.log("hmm", info);
+      z2$.backgroundRepeat = "no-repeat";
+      z2$.backgroundSize = "contain";
+      z2$.backgroundImage = "url('" + info.userInfo.avatarUrl + "')";
+      z2$.display = "block";
+      z2$.width = "32px";
+      z2$.height = "32px";
+      z2$.position = "relative";
+      z2$.top = "-8px";
+      z2$.color = "transparent";
+      z2$.border = "2px solid " + color;
+      z2$.borderRadius = "50%";
+    }
   } else {
     dynamicCSS.removeSelectorStyle(".authorColors span." + authorClass);
     parentDynamicCSS.removeSelectorStyle(authorSelector);
