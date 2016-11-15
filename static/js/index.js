@@ -170,7 +170,7 @@ function aceSetAuthorStyle(name, context){
       return 1;
     }
     authorClass = getAuthorClassName(author);
-    authorName = authorNameAndColorFromAuthorId(author).name;
+    authorName = authorNameAndColorFromAuthorId(author, info.userInfo).name;
     x$ = dynamicCSS.selectorStyle(".authorColors.focus span." + authorClass);
     x$.borderBottom = "2px solid " + color;
     y$ = parentDynamicCSS.selectorStyle(authorSelector);
@@ -188,7 +188,7 @@ function aceSetAuthorStyle(name, context){
   }
   return 1;
 }
-authorNameAndColorFromAuthorId = function(authorId){
+authorNameAndColorFromAuthorId = function(authorId, userInfo){
   var myAuthorId, authorObj;
   myAuthorId = pad.myUserInfo.userId;
   if (myAuthorId === authorId) {
@@ -197,6 +197,17 @@ authorNameAndColorFromAuthorId = function(authorId){
       color: pad.myUserInfo.colorId
     };
   }
+
+  if (userInfo) {
+    return {
+      name: userInfo.name,
+      color: userInfo.colorId
+    };
+  }
+
+  // Fall back to old terrible code to extract user name from DOM and other places.
+  // This only happens if Etherpad does not have the change to pass the full userInfo into
+  // the setAuthorStyle() hook.
   authorObj = {};
   $('#otheruserstable > tbody > tr').each(function(){
     var x$;
