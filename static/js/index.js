@@ -13,14 +13,6 @@ function postAceInit(hook_name, arg$){
     $doc = $(ace.ace_getDocument());
     $body = $doc.find('body');
     x$ = $body.get(0).ownerDocument;
-    x$.addEventListener('focus', function(){
-      $sidedivinner.addClass('authorColors');
-      return $body.addClass('focus');
-    }, true);
-    x$.addEventListener('blur', function(){
-      $sidedivinner.removeClass('authorColors');
-      return $body.removeClass('focus');
-    }, true);
     return x$;
   });
 }
@@ -171,11 +163,11 @@ function aceSetAuthorStyle(name, context){
     }
     authorClass = getAuthorClassName(author);
     authorName = authorNameAndColorFromAuthorId(author, info.userInfo).name;
-    x$ = dynamicCSS.selectorStyle(".authorColors.focus span." + authorClass);
+    x$ = dynamicCSS.selectorStyle(".authorColors span." + authorClass);
     x$.borderBottom = "2px solid " + color;
     y$ = parentDynamicCSS.selectorStyle(authorSelector);
     y$.borderBottom = "2px solid " + color;
-    z$ = dynamicCSS.selectorStyle(".authorColors.focus .primary-" + authorClass + " ." + authorClass);
+    z$ = dynamicCSS.selectorStyle(".authorColors .primary-" + authorClass + " ." + authorClass);
     z$.borderBottom = '0px';
     z1$ = outerDynamicCSS.selectorStyle("#sidedivinner.authorColors > div.primary-" + authorClass);
     z1$.borderRight = "solid 5px " + color;
@@ -183,7 +175,7 @@ function aceSetAuthorStyle(name, context){
     z2$ = outerDynamicCSS.selectorStyle("#sidedivinner > div.primary-" + authorClass + "::before");
     z2$.content = "'" + authorName + "'";
   } else {
-    dynamicCSS.removeSelectorStyle(".authorColors.focus span." + authorClass);
+    dynamicCSS.removeSelectorStyle(".authorColors span." + authorClass);
     parentDynamicCSS.removeSelectorStyle(authorSelector);
   }
   return 1;
