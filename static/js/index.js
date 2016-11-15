@@ -63,14 +63,17 @@ function toggleAuthor($node, prefix, authorClass){
   return true;
 }
 function updateDomline($node){
-  var lineNumber, authorClass;
-  lineNumber = $node.index() + 1;
-  if (!lineNumber) {
-    return false;
-  }
-  authorClass = $node.text().length > 0 ? derivePrimaryAuthor($node) : "none";
+  var authorClass = $node.text().length > 0 ? derivePrimaryAuthor($node) : "none";
   toggleAuthor($node, "primary", authorClass);
-  return authorViewUpdate($node, lineNumber, null, authorClass);
+
+  setTimeout(function () {
+    var lineNumber;
+    lineNumber = $node.index() + 1;
+    if (!lineNumber) {
+      return false;
+    }
+    authorViewUpdate($node, lineNumber, null, authorClass);
+  }, 200);
 }
 function extractAuthor($node){
   var ref$, a, ref1$;
@@ -225,9 +228,7 @@ authorNameAndColorFromAuthorId = function(authorId, userInfo){
 authorLines = {};
 out$.acePostWriteDomLineHTML = acePostWriteDomLineHTML;
 function acePostWriteDomLineHTML(hook_name, args, cb){
-  return setTimeout(function(){
-    return updateDomline($(args.node));
-  }, 200);
+  updateDomline($(args.node));
 }
 out$.aceEditEvent = aceEditEvent;
 function aceEditEvent(hook_name, context, cb){
