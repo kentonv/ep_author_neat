@@ -20,16 +20,18 @@ function derivePrimaryAuthor($node){
   var byAuthor, mPA, authorClass, author, value;
   byAuthor = {};
   $node.find('span').each(function(){
-    var $this, i$, ref$, len$, spanclass, results$ = [];
+    var $this, i$, ref$, len$, spanclass;
     $this = $(this);
     for (i$ = 0, len$ = (ref$ = allClasses($this)).length; i$ < len$; ++i$) {
       spanclass = ref$[i$];
       if (/^author/.exec(spanclass)) {
         byAuthor[spanclass] == null && (byAuthor[spanclass] = 0);
-        results$.push(byAuthor[spanclass] += $this.text().length);
+        byAuthor[spanclass] += $this.text().length;
+        return;
       }
     }
-    return results$;
+    byAuthor["null"] == null && (byAuthor["null"] = 0);
+    byAuthor["null"] += $this.text().length;
   });
   mPA = 0;
   authorClass = null;
