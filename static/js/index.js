@@ -199,7 +199,6 @@ function aceSetAuthorStyle(name, context){
     z2$ = outerDynamicCSS.selectorStyle("#sidedivinner > div.primary-" + authorClass + "::before");
     z2$.content = "' '";
     if (info.userInfo && info.userInfo.avatarUrl) {
-      if (!info.userInfo.avatarUrl) console.log("hmm", info);
       z2$.backgroundRepeat = "no-repeat";
       z2$.backgroundSize = "contain";
       z2$.backgroundImage = "url('" + info.userInfo.avatarUrl + "')";
