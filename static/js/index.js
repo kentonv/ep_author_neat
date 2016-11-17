@@ -104,6 +104,9 @@ function authorViewUpdate($node, lineNumber, prevAuthor, authorClass){
       }
     }
   }
+  if (authorClass == 'none') {
+    authorClass = prevAuthor;
+  }
   if (prevAuthor === authorClass) {
     $authorContainer.addClass('concise');
   } else {
