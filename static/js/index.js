@@ -145,7 +145,9 @@ getAuthorClassName = function(author){
 };
 function outerInit(outerDynamicCSS){
   var x$, y$, z$, z1$;
-  outerDynamicCSS.selectorStyle('#sidedivinner').paddingBottom = "16px";
+  var sidediv = outerDynamicCSS.selectorStyle('#sidedivinner');
+  sidediv.paddingBottom = "16px";
+  sidediv.minWidth = "46px";
   x$ = outerDynamicCSS.selectorStyle('#sidedivinner > div.primary-author-none');
   x$.borderRight = 'solid 0px ';
   x$.paddingRight = '5px';
