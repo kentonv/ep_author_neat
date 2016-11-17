@@ -188,7 +188,10 @@ function aceSetAuthorStyle(name, context){
     x$.borderBottom = "2px solid " + color;
     y$ = parentDynamicCSS.selectorStyle(authorSelector);
     y$.borderBottom = "2px solid " + color;
-    z$ = dynamicCSS.selectorStyle(".authorColors .primary-" + authorClass + " ." + authorClass);
+    // Default gray underline for no-author.
+    dynamicCSS.selectorStyle(".authorColors .primary-" + authorClass + " span")
+        .borderBottom = '2px solid #ddd';
+    z$ = dynamicCSS.selectorStyle(".authorColors .primary-" + authorClass + " span." + authorClass);
     z$.borderBottom = '0px';
     z1$ = outerDynamicCSS.selectorStyle("#sidedivinner.authorColors > div.primary-" + authorClass);
     z1$.borderRight = "solid 5px " + color;
